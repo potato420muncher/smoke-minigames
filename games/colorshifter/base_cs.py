@@ -1,4 +1,4 @@
-from PyQt6.QtWidgets import QWidget, QLabel, QVBoxLayout
+from PyQt6.QtWidgets import QWidget, QLabel, QVBoxLayout, QDialog
 from PyQt6.QtCore import QTimer, QRect, Qt
 from PyQt6.QtGui import QPainter, QColor
 from games.menu import Menu
@@ -35,7 +35,7 @@ class BaseCs(QWidget):
 
         self.blue_rect = QRect(25, 200, 50, 50)
         self.green_rect = QRect(125, 200, 50, 50)
-        self.red_rect = QRect(225, 200, 50, 50)
+        self.red_rect = QRect(225, 200, 50, 50) 
         self.yellow_rect = QRect(325, 200, 50, 50)
 
         self.colors_rect = [self.blue_rect, self.green_rect, self.red_rect, self.yellow_rect]
@@ -44,7 +44,7 @@ class BaseCs(QWidget):
         self.color_blue = QColor(0,0,255)
         self.color_green = QColor(0,255,0)
         self.color_red = QColor(255,0,0)
-        self.color_yellow = QColor(255,255,0)
+        self.color_yellow = QColor(255,200,50)
 
         self.colors = [self.color_blue, self.color_green, self.color_red, self.color_yellow]
 
@@ -54,7 +54,9 @@ class BaseCs(QWidget):
     def mousePressEvent(self, event):
         if event.button() == Qt.MouseButton.LeftButton and not self.running:
             self.label.setText("")
+
             self.score_label.setText(str(self.score))
+            self.score_label.setStyleSheet("color: white; font-size: 16px;")  # Text styling    
             self.timer.start(self.speed)
             self.running = True
 
@@ -112,11 +114,29 @@ class BaseCs(QWidget):
 
     def game_over(self, win):
         self.timer.stop()
-        if win :
-            print("Gagne! Bravo tu t'en tires sain et sobre")
-        else :
-            print("Perdu! Tu dois tirer", -(self.level)%6 , "taffes")
+        dialog = QDialog(self)
+        dialog.setFixedSize(300,100)
+        dialog.setStyleSheet("background-color: #2e2e2e;")  # Dark grey background
 
+        layout = QVBoxLayout()
+        dialog.setLayout(layout)
+
+        if win :
+            dialog.setWindowTitle("Gagne!")
+            label = QLabel("Bravo tu t'en tires sain et sobre")
+
+            
+        else :
+            dialog.setWindowTitle("Perdu!")
+            string =  "Tu dois tirer " + str(-(self.level)%6) + " taffes"
+            label = QLabel(string)
+        
+        
+        label.setAlignment(Qt.AlignmentFlag.AlignCenter)
+        label.setStyleSheet("color: white; font-size: 16px;")  # Text styling
+
+        layout.addWidget(label) 
+        dialog.exec()  # Show the dialog as a modal window
         self.clearFocus()
 
         self.menu = Menu()

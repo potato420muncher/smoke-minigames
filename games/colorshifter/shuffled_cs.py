@@ -10,15 +10,17 @@ class ShuffledCs(BaseCs):
     def update_game(self):
         super().update_game()
 
-        if self.score == 3 :
+        if self.score == 10 :
             if self.nb_shuffles == 0:
                 self.shuffle_colors()
             self.level = 2
         elif self.score == 20 :
+            if self.nb_shuffles == 1:
+                self.shuffle_colors()
             self.timer.setInterval(20)
             self.level = 3
         elif self.score == 30 :
-            if self.nb_shuffles == 1:
+            if self.nb_shuffles == 2:
                 self.shuffle_colors()
             self.level = 4
         elif self.score == 40 :

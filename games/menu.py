@@ -1,4 +1,4 @@
-from PyQt6.QtWidgets import QApplication, QMainWindow, QPushButton, QWidget, QVBoxLayout, QLabel, QScrollArea, QFrame, QHBoxLayout
+from PyQt6.QtWidgets import QApplication, QMainWindow, QPushButton, QWidget, QVBoxLayout, QLabel, QScrollArea, QFrame, QHBoxLayout, QSpacerItem, QSizePolicy
 from PyQt6.QtCore import QTimer
 
 from PyQt6.QtCore import Qt, QRect, QPoint
@@ -25,6 +25,7 @@ class Menu(QWidget):
         scroll_area = QScrollArea(self)
         scroll_area.setWidgetResizable(True)
         scroll_area.setStyleSheet("border: none;")  # Remove border around scroll area
+
 
         # Create a frame to hold the buttons 
         button_frame = QFrame()
@@ -58,6 +59,14 @@ class Menu(QWidget):
         play_button.clicked.connect(self.start_colorshifter)
 
         button_layout.addWidget(play_button)
+
+        for i in range(0,10) :
+            # Create the Colorshifter button with an image
+            play_b = QPushButton("Example game")
+            play_b.setStyleSheet("background-color: #444444; color: white;")  # Dark button
+            play_b.setFixedHeight(50)
+
+            button_layout.addWidget(play_b)
 
 
         # Set the frame as the scroll area's widget
